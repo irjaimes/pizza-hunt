@@ -1,13 +1,20 @@
 const router = require('express').Router();
 
 // set the comment-controller methods as callback functions
-const { addComment, removeComment } = require('../../controllers/comment-controller');
+const { addComment, removeComment, addReply, removeReply } = require('../../controllers/comment-controller');
 
-// add comment api route `/api/comments/pizzaId`
+
+// post route to add comment using this endpoint:   /api/comments/pizzaId  (comment belongs to pizza by Id)
 router.route('/:pizzaId').post(addComment);  // addComment method used here as callback function
 
-// delete comment api route `/api/comments/pizzaId/commentId (need both parameters to identify particular pizza the comment belongs to)
-router.route("/:pizzaId/:commentId").delete(removeComment)  // removeComment method used here as callback fucntion
 
+// delete & put routes for parent comment using this endpoint:   /api/comments/pizzaId/commentId  (commentId belongs to single pizzaId)
+router.route('/:pizzaId/:commentId')
+.put(addReply)  // here we use the PUT route to update a comment by adding a reply
+.delete(removeComment)  // removeComment method used here as callback function
+
+
+// delete route for reply by replyId  (replyId that belongs to this commentId that belongs to single pizzaId)
+router.route('/:pizzaId/:commentId/replyId').delete(removeReply);   
 
 module.exports = router;
