@@ -8,10 +8,17 @@ const dateFormat = require('../utils/dateFormat');
 // Using MongoDB and Mongoose, we simply instruct the schema that this data will adhere to the built-in JavaScript data types, including strings, Booleans, numbers, and so on.
 const PizzaSchema = new Schema({
     pizzaName: {
-        type: String
+        type: String,
+        // validation
+        required: true,
+        trim: true
+
     },
     createdBy: {
-        type: String
+        type: String,
+        // validation
+        require: true,
+        trim: true
     },
     createdAt: {
         type: Date,
@@ -23,6 +30,10 @@ const PizzaSchema = new Schema({
     },
     size: {
         type: String,
+        default: 'Large',
+        // validation
+        require: true,
+        enum: [ 'Personal', 'Small', 'Medium', 'Large', 'Extra-Large'],
         default: 'Large'
     },
     toppings: [], // could also specify `Array` instead of brackets
